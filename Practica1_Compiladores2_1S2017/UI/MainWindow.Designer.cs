@@ -103,6 +103,7 @@
             this.bExec.Size = new System.Drawing.Size(55, 55);
             this.bExec.TabIndex = 5;
             this.bExec.UseVisualStyleBackColor = true;
+            this.bExec.Click += new System.EventHandler(this.bExec_Click);
             // 
             // bReport
             // 

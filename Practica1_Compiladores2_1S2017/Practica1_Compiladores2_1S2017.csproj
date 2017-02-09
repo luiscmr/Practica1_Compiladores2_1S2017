@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Irony">
+      <HintPath>..\..\..\..\Irony_2013_12_12\Irony_2013_12_12\Irony.Interpreter\bin\Debug\Irony.dll</HintPath>
+    </Reference>
+    <Reference Include="Irony.Interpreter">
+      <HintPath>..\..\..\..\Irony_2013_12_12\Irony_2013_12_12\Irony.Interpreter\bin\Debug\Irony.Interpreter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analizador\Gramatica.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\MainWindow.cs">
@@ -80,14 +87,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Add.png" />
-    <Content Include="Resources\Album.png" />
-    <Content Include="Resources\Delete.png" />
-    <Content Include="Resources\Exec.png" />
-    <Content Include="Resources\Open.png" />
-    <Content Include="Resources\Report.png" />
-    <Content Include="Resources\Save.png" />
-    <Content Include="Resources\SaveAs.png" />
+    <Content Include="Recursos\Add.png" />
+    <Content Include="Recursos\Album.png" />
+    <Content Include="Recursos\Delete.png" />
+    <Content Include="Recursos\Exec.png" />
+    <Content Include="Recursos\Open.png" />
+    <Content Include="Recursos\Report.png" />
+    <Content Include="Recursos\Save.png" />
+    <Content Include="Recursos\SaveAs.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

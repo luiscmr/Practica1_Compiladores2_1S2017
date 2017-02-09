@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Practica1_Compiladores2_1S2017.Analizador;
+using Irony.Parsing;
 
 namespace Practica1_Compiladores2_1S2017.UI
 {
@@ -154,6 +156,35 @@ namespace Practica1_Compiladores2_1S2017.UI
                 tabControl.SelectedTab.Text = title;
             }
             
+        }
+
+        private void bExec_Click(object sender, EventArgs e)
+        {
+            if (tabControl.TabCount != 0) {
+                String texto = tabControl.SelectedTab.Controls["texto"].Text;
+                Gramatica gramatica = new Gramatica();
+                LanguageData lenguaje = new LanguageData(gramatica);
+                Parser parser = new Parser(lenguaje);
+                ParseTree arbol = parser.Parse(texto);
+                ParseTreeNode raiz = arbol.Root;
+
+                if( raiz == null)
+                {
+                    MessageBox.Show("You're Drunk Irony, Go Home!!");
+                    return;
+                }
+
+                foreach(var hijo in raiz.ChildNodes)
+                {
+                    switch (hijo.ToString())
+                    {
+                        case "Define incerteza":
+                            MessageBox.Show("La incerteza es de: " + hijo.ChildNodes[0].FindTokenAndGetText());
+                            break;
+                    }
+                }
+
+            }
         }
 
 
