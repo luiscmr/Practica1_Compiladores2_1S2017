@@ -95,8 +95,8 @@ namespace Practica1_Compiladores2_1S2017.UI
             OFD1.Title = "Seleccione un archivo";
             if (OFD1.ShowDialog() == DialogResult.OK)
             {
-                StreamReader str = new StreamReader(OFD1.FileName);
-                CrearTab(OFD1.FileName, str.ReadToEnd());
+                
+                CrearTab(OFD1.FileName, File.ReadAllText(OFD1.FileName));
             }
         }
 

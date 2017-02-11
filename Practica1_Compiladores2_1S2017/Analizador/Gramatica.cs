@@ -41,9 +41,16 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                 DEFINE_INCERTEZA = new NonTerminal("Define Incerteza"),
                 DEFINE_RUTA = new NonTerminal("Define Ruta"),
                 BODY = new NonTerminal("Body"),
-                VARIABLE = new NonTerminal("Variable"),
+                DECLARACION = new NonTerminal("Declaracion"),
+                TIPO_VARIABLE = new NonTerminal("Tipo Variable"),
+                ASIG_VARIABLE = new NonTerminal("Asignacion Variable"),
+                L_ID = new NonTerminal("Identificadores"),
                 FUNCION = new NonTerminal("Funcion"),
-                LISTA_BODY = new NonTerminal("Lista Body");
+                TIPO_FUNCION = new NonTerminal("Tipo Funcion"),
+                ELEMENTO_BODY = new NonTerminal("Elemento Body"),
+                LISTA_BODY = new NonTerminal("Lista Body"),
+                PRINCIPAL = new NonTerminal("Principal"),
+                EXPRESION = new NonTerminal("Expresion");
 
             #endregion
 
@@ -91,27 +98,46 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             /*
                  BODY -> BODY LISTA_BODY
                         | LISTA_BODY
-                        | NULL
-                        ;
                         
             */
-
-            BODY.Rule = MakePlusRule(BODY, LISTA_BODY);
+            BODY.Rule = MakePlusRule(BODY, ELEMENTO_BODY);
             /*
                 LISTA_BODY = VARIABLE
                             | FUNCION
-                            ; 
+                            | PRINCIPAL
+                            ;
             */
-            LISTA_BODY.Rule = VARIABLE
+
+            ELEMENTO_BODY.Rule = PRINCIPAL
                               | FUNCION
+                              | DECLARACION
                               ;
 
-            VARIABLE.Rule = "Number" + id 
-                            | "String" + id
-                            | "Bool" + id
-                            ;
+            #region Principal
 
-            FUNCION.Rule = id;
+            PRINCIPAL.Rule = "Principal" + "(" + ")" + "{" + "}";
+
+            #endregion
+
+            #region Funcion
+
+            FUNCION.Rule = TIPO_FUNCION + id + "(" + ")" + "{" + "}";
+
+            #endregion
+
+
+            TIPO_FUNCION.Rule = ToTerm("Void") | TIPO_VARIABLE;
+
+            DECLARACION.Rule = TIPO_VARIABLE + L_ID + ASIG_VARIABLE;
+
+            TIPO_VARIABLE.Rule = ToTerm("Number") | ToTerm("String") | ToTerm("Bool");
+
+
+            L_ID.Rule = MakePlusRule(L_ID,ToTerm(","),id);
+
+            ASIG_VARIABLE.Rule = "=" + id
+                |Empty
+                ;
 
 
             #endregion
@@ -121,8 +147,9 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             this.Root = START;
 
             LISTA_HEADER.ErrorRule = SyntaxError + Eos;
+            
             MarkPunctuation("Incluye", "Define");
-            MarkTransient(LISTA_HEADER);
+            MarkTransient(LISTA_HEADER,ELEMENTO_BODY,TIPO_VARIABLE, TIPO_FUNCION, ASIG_VARIABLE);
             AddToNoReportGroup(Eos);
 
 
