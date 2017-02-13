@@ -61,11 +61,10 @@ namespace Practica1_Compiladores2_1S2017.UI
             //---------- Nueva Pestaña(TabPage) ----------//
             TabPage newPage = new TabPage(title);
             //---------- Text box ----------//
-            TextBox inner_text = new TextBox();
+            RichTextBox inner_text = new RichTextBox();
             inner_text.Name = "texto";
             inner_text.Text = text;
             inner_text.Multiline = true;
-            inner_text.ScrollBars = ScrollBars.Vertical;
             inner_text.SetBounds(0, 0, tabControl.Width - 10, tabControl.Height - 28);
 
             //---------- Agregar text box a la nueva pestaña ----------//
@@ -173,6 +172,8 @@ namespace Practica1_Compiladores2_1S2017.UI
                     MessageBox.Show("You're Drunk Irony, Go Home!!");
                     return;
                 }
+
+                pictureBox1.Image = Gramatica.getImage(raiz);
 
                 foreach(var hijo in raiz.ChildNodes)
                 {
