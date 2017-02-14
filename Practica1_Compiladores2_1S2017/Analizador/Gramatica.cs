@@ -100,21 +100,21 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                 L_PARAM = new NonTerminal("Lista Parametros"),
                 L_PARAM_2 = new NonTerminal("Parametros"),
                 CUERPO_FUNC = new NonTerminal("Cuerpo Funcion"),
-                CUERPO_FUNC_CONT = new NonTerminal("Cuerpo Funcion Con Continuar"),
-                CUERPO_FUNC_DET = new NonTerminal("Cuerpo Funcion Con Detener"),
+                CUERPO_FUNC_CONT = new NonTerminal("Cuerpo Funcion"),
+                CUERPO_FUNC_DET = new NonTerminal("Cuerpo Funcion"),
                 INSTRUCCION = new NonTerminal("Instruccion"),
                 INSTRUCCION_CONT = new NonTerminal("Instruccion con Continuar"),
                 INSTRUCCION_DET = new NonTerminal("Instruccion con Detener"),
                 LLAMADA = new NonTerminal("Llamada"),
                 VALORES_LLAMADA = new NonTerminal("Lista de Valores"),
                 RETORNO = new NonTerminal("Retorno"),
-                SI = new NonTerminal(""),
-                SELECCIONA = new NonTerminal("Lista de Valores"),
-                PARA = new NonTerminal("Lista de Valores"),
-                HASTA = new NonTerminal("Lista de Valores"),
-                MIENTRAS = new NonTerminal("Lista de Valores"),
-                DETENER = new NonTerminal("Lista de Valores"),
-                CONTINUAR = new NonTerminal("Lista de Valores"),
+                SI = new NonTerminal("Si"),
+                SELECCIONA = new NonTerminal("Selecciona"),
+                PARA = new NonTerminal("Para"),
+                HASTA = new NonTerminal("Hasta"),
+                MIENTRAS = new NonTerminal("Mientras"),
+                DETENER = new NonTerminal("Detener"),
+                CONTINUAR = new NonTerminal("Continuar"),
                 MOSTRAR = new NonTerminal("Mostrar"),
                 PARAM_MOSTRAR = new NonTerminal("Parametros Mostrar TEMP"),
                 PARAM_MOSTRAR_2 = new NonTerminal("Parametros Mostrar"),
@@ -130,7 +130,8 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                 DEFECTO = new NonTerminal("Defecto"),
                 TIPO_VALOR = new NonTerminal("Tipo Valor"),
                 VALOR_ANIDADO = new NonTerminal("Valor Anidado"),
-                ASIGNACION = new NonTerminal("Asignacion")
+                ASIGNACION = new NonTerminal("Asignacion"),
+                LLAMADA_ENTRE_EXP = new NonTerminal("Llamada Entre EXP")
 
                 ;
             #endregion
@@ -242,7 +243,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                                | CONTINUAR
                                ;
             INSTRUCCION.Rule =
-                                 LLAMADA
+                                 LLAMADA + ";"
                                | DIBUJAR_AST
                                | DIBUJAR_EXP
                                | MOSTRAR
@@ -257,9 +258,11 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                                ;
 
             #region Llamada
+            
+            LLAMADA.Rule = id + "(" + VALORES_LLAMADA + ")";
 
-            LLAMADA.Rule = id + "(" + VALORES_LLAMADA + ")" + ";";
             VALORES_LLAMADA.Rule = MakeStarRule(VALORES_LLAMADA, ToTerm(","), EXP);
+            LLAMADA.ErrorRule = SyntaxError + ";";
 
             #endregion
 
@@ -308,19 +311,19 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             #endregion
 
             #region Si
-            SI_SINO.Rule = SI + SINO;
-            SI.Rule = MakePlusRule(SI, SI_ANIDADO);
-            SI_ANIDADO.Rule = si + "(" + EXP + ")" + "{" + CUERPO_FUNC_CONT + "}";
-            SINO.Rule = sino + "{" + CUERPO_FUNC_CONT + "}" | Empty;
+            SI_SINO.Rule = SI_ANIDADO + SINO;
+            SI_ANIDADO.Rule = MakePlusRule(SI_ANIDADO, SI);
+            SI.Rule = si + "(" + EXP + ")" + "{" + CUERPO_FUNC_CONT + "}";
+            SINO.Rule = Empty | sino + "{" + CUERPO_FUNC_CONT + "}" ;
             #endregion
 
             #region Seleccion
-            SELECCIONA.Rule = selecciona + "(" + EXP + ")" + "{" + CUERPO_SELECCIONA + "}";
+            SELECCIONA.Rule = selecciona + "(" + EXP + ")"  + CUERPO_SELECCIONA ;
             CUERPO_SELECCIONA.Rule = VALOR_ANIDADO + DEFECTO;
-            VALOR_ANIDADO.Rule = MakePlusRule(CUERPO_SELECCIONA, VALOR_N);
+            VALOR_ANIDADO.Rule = MakePlusRule(VALOR_ANIDADO, VALOR_N);
             VALOR_N.Rule = TIPO_VALOR + ":" + "{" + CUERPO_FUNC_DET + "}";
             TIPO_VALOR.Rule = numero | cadena ;
-            DEFECTO.Rule = defecto + ":" + "{" + "}";
+            DEFECTO.Rule = defecto + ":" + "{" + CUERPO_FUNC_DET + "}";
 
             #endregion
 
@@ -369,9 +372,9 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                        | EXP + or + EXP
                        | EXP + xor + EXP
                        | not + EXP
-                       | id
                        | numero
-                       | LLAMADA
+                       | id
+                       | LLAMADA 
                        | v_false
                        | v_true
                        | cadena
@@ -395,8 +398,10 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             RegisterOperators(65, or);
 
 
-            MarkPunctuation("{", "}", "(", ")", ";", "," , "Mostrar","Define","Incluye");
-            MarkTransient(LISTA_HEADER,ELEMENTO_BODY,TIPO_VARIABLE, TIPO_FUNCION, ASIG_VARIABLE,L_PARAM,PARAM_MOSTRAR);
+            MarkPunctuation("{", "}", "(", ")", ";", "," , "Mostrar","Define","Incluye","Principal","=","Retorno", "Si",
+                "Sino","Selecciona","Defecto",":","Para","Mientras","Hasta");
+            MarkTransient(LISTA_HEADER,ELEMENTO_BODY,TIPO_VARIABLE, TIPO_FUNCION, ASIG_VARIABLE,L_PARAM,PARAM_MOSTRAR
+                ,INSTRUCCION,INSTRUCCION_DET, INSTRUCCION_CONT,TIPO_VALOR);
             AddToNoReportGroup(Eos);
 
 
