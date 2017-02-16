@@ -32,30 +32,30 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             base.NonGrammarTerminals.Add(comentarioLinea);
 
 
-            KeyTerm t_number = ToTerm("Number"),
-                    t_str = ToTerm("String"),
-                    t_bool = ToTerm("Bool"),
-                    t_void = ToTerm("Void"),
+            KeyTerm t_number = ToTerm("Number",Constantes.T_NUM),
+                    t_str = ToTerm("String", Constantes.T_STR),
+                    t_bool = ToTerm("Bool", Constantes.T_BOOL),
+                    t_void = ToTerm("Void", Constantes.T_VOID),
                     define = ToTerm("Define"),
                     incluye = ToTerm("Incluye"),
                     principal = ToTerm("Principal"),
-                    mas = ToTerm("+"),
-                    menos = ToTerm("-"),
-                    por = ToTerm("*"),
-                    div = ToTerm("/"),
-                    mod = ToTerm("%"),
-                    pot = ToTerm("^"),
-                    igual = ToTerm("=="),
-                    diferente = ToTerm("!="),
-                    menor = ToTerm("<"),
-                    mayor = ToTerm(">"),
-                    menor_igual = ToTerm("<="),
-                    mayor_igual = ToTerm(">="),
-                    comparacion = ToTerm("~"),
-                    and = ToTerm("&&"),
-                    or = ToTerm("||"),
-                    xor = ToTerm("|&"),
-                    not = ToTerm("!"),
+                    mas = ToTerm("+",Constantes.OP_SUM),
+                    menos = ToTerm("-",Constantes.OP_RES),
+                    por = ToTerm("*",Constantes.OP_MUL),
+                    div = ToTerm("/",Constantes.OP_DIV),
+                    mod = ToTerm("%",Constantes.OP_MOD),
+                    pot = ToTerm("^",Constantes.OP_POT),
+                    igual = ToTerm("==", Constantes.OP_IGUAL),
+                    diferente = ToTerm("!=", Constantes.OP_DIF),
+                    menor = ToTerm("<", Constantes.OP_MENOR),
+                    mayor = ToTerm(">", Constantes.OP_MAYOR),
+                    menor_igual = ToTerm("<=", Constantes.OP_MEN_Q),
+                    mayor_igual = ToTerm(">=", Constantes.OP_MAY_Q),
+                    comparacion = ToTerm("~", Constantes.OP_COMP),
+                    and = ToTerm("&&", Constantes.OP_AND),
+                    or = ToTerm("||", Constantes.OP_OR),
+                    xor = ToTerm("|&", Constantes.OP_XOR),
+                    not = ToTerm("!", Constantes.OP_NOT),
                     fun_dibujar_exp = ToTerm("DibujarEXP"),
                     fun_dibujar_ast = ToTerm("DibujarAST"),
                     fun_mostrar = ToTerm("Mostrar"),
@@ -64,11 +64,11 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                     continuar = ToTerm("Continuar"),
                     retorno = ToTerm("Retorno"),
                     para = ToTerm("Para"),
-                    incremento = ToTerm("++"),
-                    decremento = ToTerm("--"),
+                    incremento = ToTerm("++",Constantes.INCREMENTO),
+                    decremento = ToTerm("--",Constantes.DECREMENTO),
                     hasta = ToTerm("Hasta"),
-                    v_true = ToTerm("true"),
-                    v_false = ToTerm("flase"),
+                    v_true = ToTerm("true",Constantes.TRUE),
+                    v_false = ToTerm("flase",Constantes.FALSE),
                     si = ToTerm("Si"),
                     sino = ToTerm("Sino"),
                     selecciona = ToTerm("Selecciona"),
@@ -80,59 +80,70 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             #region No Terminales
 
             NonTerminal
-                START = new NonTerminal("Start"),
-                HEADER = new NonTerminal("Header"),
+                START = new NonTerminal(Constantes.INICIO),
+                HEADER = new NonTerminal(Constantes.ENCABEZADO),
                 LISTA_HEADER = new NonTerminal("Lista Header"),
-                INCLUYE = new NonTerminal("Incluye"),
-                DEFINE_INCERTEZA = new NonTerminal("Define Incerteza"),
-                DEFINE_RUTA = new NonTerminal("Define Ruta"),
-                BODY = new NonTerminal("Body"),
-                DECLARACION = new NonTerminal("Declaracion"),
+                INCLUYE = new NonTerminal(Constantes.INCLUYE),
+                DEFINE_INCERTEZA = new NonTerminal(Constantes.INCERTEZA),
+                DEFINE_RUTA = new NonTerminal(Constantes.RUTA),
+                BODY = new NonTerminal(Constantes.CUERPO_PROGRAMA),
+                DECLARACION = new NonTerminal(Constantes.DECLARACION),
                 TIPO_VARIABLE = new NonTerminal("Tipo Variable"),
                 ASIG_VARIABLE = new NonTerminal("Asignacion Variable"),
-                L_ID = new NonTerminal("Identificadores"),
-                FUNCION = new NonTerminal("Funcion"),
+                L_ID = new NonTerminal(Constantes.LISTA_ID),
+                FUNCION = new NonTerminal(Constantes.FUNCION),
                 TIPO_FUNCION = new NonTerminal("Tipo Funcion"),
                 ELEMENTO_BODY = new NonTerminal("Elemento Body"),
                 LISTA_BODY = new NonTerminal("Lista Body"),
-                PRINCIPAL = new NonTerminal("Principal"),
-                EXP = new NonTerminal("Expresion"),
+                PRINCIPAL = new NonTerminal(Constantes.PRINCIPAL),
+                EXP = new NonTerminal(Constantes.EXPRESION),
+                LOG = new NonTerminal(Constantes.LOGICA),
+                ARIT = new NonTerminal(Constantes.ARITMETICA),
+                REL = new NonTerminal(Constantes.RELACIONAL),
+                VAL = new NonTerminal(Constantes.VALOR),
+                PRIMITIVO = new NonTerminal("Primitivo"),
                 L_PARAM = new NonTerminal("Lista Parametros"),
-                L_PARAM_2 = new NonTerminal("Parametros"),
-                CUERPO_FUNC = new NonTerminal("Cuerpo Funcion"),
-                CUERPO_FUNC_CONT = new NonTerminal("Cuerpo Funcion"),
-                CUERPO_FUNC_DET = new NonTerminal("Cuerpo Funcion"),
+                L_PARAM_2 = new NonTerminal(Constantes.LISTA_PARAMETRO),
+                CUERPO_FUNC = new NonTerminal(Constantes.CUERPO_FUNCION),
+                CUERPO_FUNC_CONT = new NonTerminal(Constantes.CUERPO_FUNCION),
+                CUERPO_FUNC_DET = new NonTerminal(Constantes.CUERPO_FUNCION),
                 INSTRUCCION = new NonTerminal("Instruccion"),
                 INSTRUCCION_CONT = new NonTerminal("Instruccion con Continuar"),
                 INSTRUCCION_DET = new NonTerminal("Instruccion con Detener"),
-                LLAMADA = new NonTerminal("Llamada"),
-                VALORES_LLAMADA = new NonTerminal("Lista de Valores"),
-                RETORNO = new NonTerminal("Retorno"),
-                SI = new NonTerminal("Si"),
-                SELECCIONA = new NonTerminal("Selecciona"),
-                PARA = new NonTerminal("Para"),
-                HASTA = new NonTerminal("Hasta"),
-                MIENTRAS = new NonTerminal("Mientras"),
-                DETENER = new NonTerminal("Detener"),
-                CONTINUAR = new NonTerminal("Continuar"),
-                MOSTRAR = new NonTerminal("Mostrar"),
+                LLAMADA = new NonTerminal(Constantes.LLAMADA),
+                VALORES_LLAMADA_T = new NonTerminal("Val llamada"),
+                VALORES_LLAMADA = new NonTerminal(Constantes.LISTA_VAL),
+                RETORNO = new NonTerminal(Constantes.RETORNO),
+                SI = new NonTerminal(Constantes.SI),
+                SELECCIONA = new NonTerminal(Constantes.SELECCIONA),
+                PARA = new NonTerminal(Constantes.PARA),
+                HASTA = new NonTerminal(Constantes.HASTA),
+                MIENTRAS = new NonTerminal(Constantes.MIENTRAS),
+                DETENER = new NonTerminal(Constantes.DETENER),
+                CONTINUAR = new NonTerminal(Constantes.CONTINUAR),
+                MOSTRAR = new NonTerminal(Constantes.MOSTRAR),
                 PARAM_MOSTRAR = new NonTerminal("Parametros Mostrar TEMP"),
-                PARAM_MOSTRAR_2 = new NonTerminal("Parametros Mostrar"),
-                DIBUJAR_AST = new NonTerminal("Dibujar AST"),
-                DIBUJAR_EXP = new NonTerminal("Dibujar EXP"),
+                DIBUJAR_AST = new NonTerminal(Constantes.DIBUJARAST),
+                DIBUJAR_EXP = new NonTerminal(Constantes.DIBUJAREXP),
                 EXP_RETORNO = new NonTerminal("EXP Retorno"),
                 OP = new NonTerminal("Op"),
-                SI_SINO = new NonTerminal("Si-Sino"),
-                SI_ANIDADO = new NonTerminal("Si Anidado"),
-                SINO = new NonTerminal("Sino"),
+                SI_SINO = new NonTerminal(Constantes.SI_SINO),
+                SINO = new NonTerminal(Constantes.SINO),
                 CUERPO_SELECCIONA = new NonTerminal("Cuerpo Selecciona"),
                 VALOR_N = new NonTerminal("Valor N"),
-                DEFECTO = new NonTerminal("Defecto"),
+                DEFECTO = new NonTerminal(Constantes.DEFECTO),
                 TIPO_VALOR = new NonTerminal("Tipo Valor"),
                 VALOR_ANIDADO = new NonTerminal("Valor Anidado"),
-                ASIGNACION = new NonTerminal("Asignacion"),
-                LLAMADA_ENTRE_EXP = new NonTerminal("Llamada Entre EXP")
-
+                ASIGNACION = new NonTerminal(Constantes.ASIGNACION),
+                LLAMADA_ENTRE_EXP = new NonTerminal("Llamada Entre EXP"),
+                NUMBER = new NonTerminal(Constantes.T_NUM),
+                STRING = new NonTerminal(Constantes.T_STR),
+                BOOLEAN = new NonTerminal(Constantes.T_BOOL),
+                VOID = new NonTerminal(Constantes.T_VOID),
+                INCREMENTO = new NonTerminal(Constantes.INCREMENTO),
+                DECREMENTO = new NonTerminal(Constantes.DECREMENTO),
+                TRUE = new NonTerminal(Constantes.TRUE),
+                FALSE = new NonTerminal(Constantes.FALSE)
                 ;
             #endregion
 
@@ -203,7 +214,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
 
             #region Funcion
 
-            FUNCION.Rule = t_void + id + "(" + L_PARAM + ")" + "{" + CUERPO_FUNC + "}"
+            FUNCION.Rule = VOID + id + "(" + L_PARAM + ")" + "{" + CUERPO_FUNC + "}"
                             | TIPO_VARIABLE + id + "(" + L_PARAM + ")" + "{" + CUERPO_FUNC + "}"
                             ;
 
@@ -259,8 +270,8 @@ namespace Practica1_Compiladores2_1S2017.Analizador
 
             #region Llamada
             
-            LLAMADA.Rule = id + "(" + VALORES_LLAMADA + ")";
-
+            LLAMADA.Rule = id + "(" + VALORES_LLAMADA_T + ")";
+            VALORES_LLAMADA_T.Rule = VALORES_LLAMADA | Empty;
             VALORES_LLAMADA.Rule = MakeStarRule(VALORES_LLAMADA, ToTerm(","), EXP);
             LLAMADA.ErrorRule = SyntaxError + ";";
 
@@ -277,10 +288,9 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             #region Mostrar
             MOSTRAR.Rule = fun_mostrar + "(" + cadena + PARAM_MOSTRAR + ")" + ";";
 
-            PARAM_MOSTRAR.Rule = "," + PARAM_MOSTRAR_2
+            PARAM_MOSTRAR.Rule = "," + VALORES_LLAMADA
                                 | Empty
                                 ;
-            PARAM_MOSTRAR_2.Rule = MakePlusRule(PARAM_MOSTRAR_2, ToTerm(","), EXP);
 
             #endregion
 
@@ -303,7 +313,9 @@ namespace Practica1_Compiladores2_1S2017.Analizador
 
             #region Para
             PARA.Rule = para + "(" + t_number + id + "=" + EXP + ";" + EXP + ";" + OP + ")" + "{" + CUERPO_FUNC_CONT + "}";
-            OP.Rule = incremento | decremento;
+            OP.Rule = INCREMENTO | DECREMENTO;
+            INCREMENTO.Rule = incremento;
+            DECREMENTO.Rule = decremento;
             #endregion
 
             #region Hasta
@@ -311,8 +323,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             #endregion
 
             #region Si
-            SI_SINO.Rule = SI_ANIDADO + SINO;
-            SI_ANIDADO.Rule = MakePlusRule(SI_ANIDADO, SI);
+            SI_SINO.Rule = SI + SINO;
             SI.Rule = si + "(" + EXP + ")" + "{" + CUERPO_FUNC_CONT + "}";
             SINO.Rule = Empty | sino + "{" + CUERPO_FUNC_CONT + "}" ;
             #endregion
@@ -337,8 +348,13 @@ namespace Practica1_Compiladores2_1S2017.Analizador
 
             DECLARACION.Rule = TIPO_VARIABLE + L_ID + ASIG_VARIABLE + ";";
 
-            TIPO_VARIABLE.Rule = t_number | t_str | t_bool;
-            
+            TIPO_VARIABLE.Rule = NUMBER | STRING | BOOLEAN;
+
+            NUMBER.Rule = t_number;
+            STRING.Rule = t_str;
+            BOOLEAN.Rule = t_bool;
+            VOID.Rule = t_void;
+
             L_ID.Rule = MakePlusRule(L_ID,ToTerm(","),id);
 
             ASIG_VARIABLE.Rule = "=" + EXP
@@ -353,32 +369,38 @@ namespace Practica1_Compiladores2_1S2017.Analizador
 
             #region Expresion
 
-            EXP.Rule = EXP + mas + EXP
-                       | EXP + menos + EXP
-                       | EXP + por + EXP
-                       | EXP + div + EXP
-                       | EXP + mod + EXP
-                       | EXP + pot + EXP
-                       | "(" + EXP + ")"
-                       | menos + EXP
-                       | EXP + igual + EXP
-                       | EXP + diferente + EXP
-                       | EXP + menor + EXP
-                       | EXP + mayor + EXP
-                       | EXP + menor_igual + EXP
-                       | EXP + mayor_igual + EXP
-                       | EXP + comparacion + EXP
-                       | EXP + and + EXP
-                       | EXP + or + EXP
-                       | EXP + xor + EXP
-                       | not + EXP
-                       | numero
-                       | id
-                       | LLAMADA 
-                       | v_false
-                       | v_true
-                       | cadena
+            EXP.Rule = LOG
                        ;
+            LOG.Rule = LOG + and + LOG
+                        | LOG + or + LOG
+                        | LOG + xor + LOG
+                        | not + LOG
+                        | REL
+                        ;
+            REL.Rule = REL + igual + REL
+                        | REL + diferente + REL
+                        | REL + menor + REL
+                        | REL + mayor + REL
+                        | REL + mayor_igual + REL
+                        | REL + menor_igual + REL
+                        | REL + comparacion + REL
+                        | ARIT
+                        ;
+            ARIT.Rule = ARIT + mas + ARIT
+                        | ARIT + menos + ARIT
+                        | ARIT + por + ARIT
+                        | ARIT + div + ARIT
+                        | ARIT + mod + ARIT
+                        | ARIT + pot + ARIT
+                        | menos + ARIT
+                        | VAL
+                        | "(" + EXP + ")"
+                        ;
+
+            VAL.Rule = id | LLAMADA | PRIMITIVO;
+            PRIMITIVO.Rule = numero | cadena | TRUE | FALSE;
+            TRUE.Rule = v_true;
+            FALSE.Rule = v_false;
 
             #endregion
 
@@ -391,7 +413,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             RegisterOperators(100, Associativity.Right, pot);
             RegisterOperators(95, Associativity.Left, por, div, mod);
             RegisterOperators(90, Associativity.Left, mas, menos);
-            RegisterOperators(85,  igual, diferente, menor, mayor, menor_igual, mayor_igual);
+            RegisterOperators(85,  igual, diferente, menor, mayor, menor_igual, mayor_igual,comparacion);
             RegisterOperators(80, not);
             RegisterOperators(75, and);
             RegisterOperators(70, xor);
@@ -399,9 +421,10 @@ namespace Practica1_Compiladores2_1S2017.Analizador
 
 
             MarkPunctuation("{", "}", "(", ")", ";", "," , "Mostrar","Define","Incluye","Principal","=","Retorno", "Si",
-                "Sino","Selecciona","Defecto",":","Para","Mientras","Hasta");
+                "Sino","Selecciona","Defecto",":","Para","Mientras","Hasta","Number", "Void", "String","Bool","Detener"
+                ,"Continuar","Retorno","++","--");
             MarkTransient(LISTA_HEADER,ELEMENTO_BODY,TIPO_VARIABLE, TIPO_FUNCION, ASIG_VARIABLE,L_PARAM,PARAM_MOSTRAR
-                ,INSTRUCCION,INSTRUCCION_DET, INSTRUCCION_CONT,TIPO_VALOR);
+                ,INSTRUCCION,INSTRUCCION_DET, INSTRUCCION_CONT,TIPO_VALOR,EXP_RETORNO,OP,VALORES_LLAMADA_T);
             AddToNoReportGroup(Eos);
 
 

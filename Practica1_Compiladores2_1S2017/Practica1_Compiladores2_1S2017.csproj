@@ -55,6 +55,8 @@
     <Compile Include="Analizador\Constantes.cs" />
     <Compile Include="Analizador\Gramatica.cs" />
     <Compile Include="Graficar\arbolDOT.cs" />
+    <Compile Include="Interprete\Interprete.cs" />
+    <Compile Include="Interprete\Variable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\MainWindow.cs">
