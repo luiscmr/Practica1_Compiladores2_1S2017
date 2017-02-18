@@ -101,7 +101,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                 ARIT = new NonTerminal(Constantes.ARITMETICA),
                 REL = new NonTerminal(Constantes.RELACIONAL),
                 VAL = new NonTerminal(Constantes.VALOR),
-                PRIMITIVO = new NonTerminal("Primitivo"),
+                PRIMITIVO = new NonTerminal(Constantes.PRIMITIVO),
                 L_PARAM = new NonTerminal("Lista Parametros"),
                 L_PARAM_2 = new NonTerminal(Constantes.LISTA_PARAMETRO),
                 CUERPO_FUNC = new NonTerminal(Constantes.CUERPO_FUNCION),
@@ -143,7 +143,8 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                 INCREMENTO = new NonTerminal(Constantes.INCREMENTO),
                 DECREMENTO = new NonTerminal(Constantes.DECREMENTO),
                 TRUE = new NonTerminal(Constantes.TRUE),
-                FALSE = new NonTerminal(Constantes.FALSE)
+                FALSE = new NonTerminal(Constantes.FALSE),
+                ID = new NonTerminal(Constantes.ID)
                 ;
             #endregion
 
@@ -397,7 +398,8 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                         | "(" + EXP + ")"
                         ;
 
-            VAL.Rule = id | LLAMADA | PRIMITIVO;
+            VAL.Rule = ID | LLAMADA | PRIMITIVO;
+            ID.Rule = id;
             PRIMITIVO.Rule = numero | cadena | TRUE | FALSE;
             TRUE.Rule = v_true;
             FALSE.Rule = v_false;
@@ -430,19 +432,12 @@ namespace Practica1_Compiladores2_1S2017.Analizador
 
         }
 
-        public static Image getImage(ParseTreeNode raiz)
+        public static void getImage(ParseTreeNode raiz)
         {
             String grafoDOT = Graficar.arbolDOT.getDOT(raiz);
             WINGRAPHVIZLib.DOT dot = new WINGRAPHVIZLib.DOT();
             WINGRAPHVIZLib.BinaryImage img = dot.ToJPEG(grafoDOT);
             img.Save("ast.jpeg");
-            byte[] imageBytes = Convert.FromBase64String(img.ToBase64String());
-            MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
-            ms.Write(imageBytes, 0, imageBytes.Length);
-            Image image = Image.FromStream(ms, true);
-            return image;
-
-
         }
         
     }
