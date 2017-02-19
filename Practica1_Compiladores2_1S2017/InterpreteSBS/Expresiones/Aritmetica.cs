@@ -74,14 +74,33 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
         }
 
         private Resultado resolverSuma(Resultado resIzq, Resultado resDer) {
-            String validarTipo = ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_SUMA);
+            String validarTipo = Constantes.ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_SUMA);
             if(validarTipo == Constantes.T_NUM)
             {
                 return resolverNumerica(resIzq, resDer);
             }
             if(validarTipo == Constantes.T_STR)
             {
-                return FabricarResultado.creaCadena(String.Concat(resIzq.Valor,resDer.Valor));
+                String dIzq, dDer;
+                if (resIzq.Tipo == Constantes.T_BOOL)
+                {
+                    dIzq = Convert.ToInt32(Convert.ToBoolean(resIzq.Valor)).ToString();
+                }
+                else
+                {
+                    dIzq = resIzq.Valor;
+
+                }
+
+                if (resDer.Tipo == Constantes.T_BOOL)
+                {
+                    dDer = Convert.ToInt32(Convert.ToBoolean(resDer.Valor)).ToString();
+                }
+                else
+                {
+                    dDer = resDer.Valor;
+                }
+                return FabricarResultado.creaCadena(String.Concat(dIzq,dDer));
             }
             if(validarTipo == Constantes.T_BOOL)
             {
@@ -92,39 +111,57 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
 
         private Resultado resolverNumerica(Resultado resIzq, Resultado resDer)
         {
-            double dIzq = resIzq.Doble;
-            double dDer = resDer.Doble;
+            double dIzq, dDer;
+            if (resIzq.Tipo == Constantes.T_BOOL)
+            {
+                dIzq = Convert.ToInt32(Convert.ToBoolean(resIzq.Valor));
+            }
+            else
+            {
+                dIzq = resIzq.Doble;
+
+            }
+
+            if (resDer.Tipo == Constantes.T_BOOL)
+            {
+                dDer = Convert.ToInt32(Convert.ToBoolean(resDer.Valor));
+            }
+            else
+            {
+                dDer = resDer.Doble;
+            }
+
             switch (operando)
             {
                 case "+":
-                    if (ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_SUMA) == Constantes.T_NUM)
+                    if (Constantes.ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_SUMA) == Constantes.T_NUM)
                     {
                         dIzq += dDer;
                     }
-                    return new Resultado();
+                    break;
                 case "-":
-                    if (ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_RESTA) == Constantes.T_NUM)
+                    if (Constantes.ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_RESTA) == Constantes.T_NUM)
                     {
                         dIzq -= dDer;
                     }
-                    return new Resultado();
+                    break;
                 case "*":
-                    if (ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_MULTPLICACION) == Constantes.T_NUM)
+                    if (Constantes.ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_MULTPLICACION) == Constantes.T_NUM)
                     {
                         dIzq *= dDer;
                     }
-                    return new Resultado();
+                    break;
                 case "/":
                     if(dDer == 0)
                     {
                         Console.WriteLine("No se Puede dividir entre 0");
                         return new Resultado();
                     }
-                    if (ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_DIVISION) == Constantes.T_NUM)
+                    if (Constantes.ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_DIVISION) == Constantes.T_NUM)
                     {
                         dIzq /= dDer;
                     }
-                    return new Resultado();
+                    break;
                 case "%":
                     if (dDer == 0)
                     {
@@ -132,25 +169,25 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
                         return new Resultado();
                     }
 
-                    if (ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_MODULO) == Constantes.T_NUM)
+                    if (Constantes.ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_MODULO) == Constantes.T_NUM)
                     {
                         int mod = (int)dIzq % (int)dDer;
                         return FabricarResultado.creaNumero(Convert.ToString(mod));
                     }
-                    return new Resultado();
+                    break;
                 case "^":
-                    if (ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_POTENCIA) == Constantes.T_NUM)
+                    if (Constantes.ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_POTENCIA) == Constantes.T_NUM)
                     {
                         dIzq = Math.Pow(dIzq, dDer);
                     }
-                    return new Resultado();
+                    break;
             }
             return FabricarResultado.creaNumero(Convert.ToString(dIzq));
         }
 
         private Resultado resolverMultiplicacion(Resultado resIzq, Resultado resDer)
         {
-            String validarTipo = ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_MULTPLICACION);
+            String validarTipo = Constantes.ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_MULTPLICACION);
             if(validarTipo == Constantes.T_NUM)
             {
                 return resolverNumerica(resIzq, resDer);

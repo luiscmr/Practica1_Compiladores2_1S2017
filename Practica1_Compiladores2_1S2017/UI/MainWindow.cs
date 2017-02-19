@@ -20,6 +20,7 @@ namespace Practica1_Compiladores2_1S2017.UI
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
+            Console.WriteLine("Prueba {0} : {1} ",1,"h");
         }
 
         private void bAdd_Click(object sender, EventArgs e)
@@ -165,7 +166,7 @@ namespace Practica1_Compiladores2_1S2017.UI
                 Interprete interprete = new Interprete(texto);
                 interprete.Analizar();
                 interprete.Ejecutar();
-
+                txtSalida.Text = Interprete.Salida;
                 /*
             pictureBox1.Image = Gramatica.getImage(raiz);
 

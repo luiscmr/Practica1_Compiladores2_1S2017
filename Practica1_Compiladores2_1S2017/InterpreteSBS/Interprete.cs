@@ -7,6 +7,7 @@ using Irony.Ast;
 using Irony.Interpreter;
 using Irony.Parsing;
 using Practica1_Compiladores2_1S2017.Analizador;
+using Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones;
 using System.Windows.Forms;
 
 namespace Practica1_Compiladores2_1S2017.InterpreteSBS
@@ -15,7 +16,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
     {
         private String Entrada = "";
         private static Contexto global = new Contexto();
-        private String Salida = "";
+        private static String salida = "";
         private List<ParseTreeNode> variables = new List<ParseTreeNode>();
         private List<ParseTreeNode> metodos = new List<ParseTreeNode>();
         private List<Encabezado> encabezado = new List<Encabezado>();
@@ -24,7 +25,17 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
         private static Double incerteza = 0.5;
         private static String ruta = "";
 
-
+        public static String Salida
+        {
+            get
+            {
+                return salida;
+            }
+            set
+            {
+                salida = value;
+            }
+        }
 
         public Interprete(String Entrada) {
             this.Entrada = Entrada;
@@ -52,8 +63,22 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
             Contexto local = new Contexto();
             
             foreach (ParseTreeNode declaracion in variables) {
-
+                Declaracion decla = new Declaracion(declaracion);
+                decla.ejecutar(local, Constantes.GLOBAL);
             }
+            Console.WriteLine("contexto global creado");
+            if (Principal == null)
+            {
+                //error no se definio el main
+                return;
+            }
+            Cuerpo _principal = new Cuerpo(Principal.ChildNodes[0], false);
+            _principal.ejecutar(local, Constantes.GLOBAL + 1);
+            Console.WriteLine("Ejecucion Exitosa");
+            Console.WriteLine("Salida");
+            Interprete.getContextoGlobal().reporte();
+            local.reporte();
+            Console.WriteLine(Interprete.Salida);
         }
 
         private void reiniciarEjecucion() {
@@ -192,6 +217,11 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
                     Console.WriteLine("Arbol Vacio!");
                 }
             }
+        }
+
+        public static void ConcatenarSalida(String cad)
+        {
+            Interprete.salida += cad;
         }
 
     }

@@ -20,7 +20,12 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
             variables = new Dictionary<string, Variable>(Temporal);
         }
 
-        public Variable getVariable(String nombre) { return variables[nombre]; }
+        public Variable getVariable(String nombre)
+        {
+            Variable tmp = null;
+            variables.TryGetValue(nombre, out tmp);
+            return tmp;
+        }
 
         public bool existeVariable(String nombre)
         {

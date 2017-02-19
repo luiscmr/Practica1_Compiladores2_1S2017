@@ -68,7 +68,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                     decremento = ToTerm("--",Constantes.DECREMENTO),
                     hasta = ToTerm("Hasta"),
                     v_true = ToTerm("true",Constantes.TRUE),
-                    v_false = ToTerm("flase",Constantes.FALSE),
+                    v_false = ToTerm("false",Constantes.FALSE),
                     si = ToTerm("Si"),
                     sino = ToTerm("Sino"),
                     selecciona = ToTerm("Selecciona"),
@@ -398,7 +398,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                         | "(" + EXP + ")"
                         ;
 
-            VAL.Rule = ID | LLAMADA | PRIMITIVO;
+            VAL.Rule = PRIMITIVO |  ID | LLAMADA;
             ID.Rule = id;
             PRIMITIVO.Rule = numero | cadena | TRUE | FALSE;
             TRUE.Rule = v_true;

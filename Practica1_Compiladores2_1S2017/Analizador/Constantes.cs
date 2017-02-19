@@ -13,7 +13,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
         public const String ERR_SINTACTICO = "Sintactico";
         public const String ERR_SEMANTICO = "Semantico";
         public const String ERR_GENERAL = "General";
-        
+        public const int GLOBAL = 0;
 
         //Constantes para los tipos de valor
         public const String T_NUM = "Tipo Numero";
@@ -151,6 +151,17 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             { T_ERROR,T_ERROR, T_ERROR,T_ERROR,T_ERROR },//T_ERROR
         };
 
+
+        public static readonly String[,] MT_ASIG =  { 
+            //T_NUM,T_STR,T_BOOL,T_VOID,T_ERROR
+            { T_NUM,T_ERROR, T_NUM,T_ERROR,T_ERROR },//T_NUM
+            { T_STR,T_STR, T_STR,T_ERROR,T_ERROR },//T_STR
+            { T_ERROR,T_ERROR, T_BOOL,T_ERROR,T_ERROR },//T_BOOL
+            { T_ERROR,T_ERROR, T_ERROR,T_ERROR,T_ERROR },//T_VOID
+            { T_ERROR,T_ERROR, T_ERROR,T_ERROR,T_ERROR },//T_ERROR
+        };
+
+
         public static Boolean esAlgunoDeEstos(String rol, params String[] roles) {
             for (int i = 0; i<roles.Length;i++)
             {
@@ -158,6 +169,49 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             }
             return false;
         }
-        
+
+
+        private static int getPos(String op)
+        {
+            int pos = 0;
+            switch (op)
+            {
+                case Constantes.T_NUM:
+                    pos = 0;
+                    break;
+                case Constantes.T_STR:
+                    pos = 1;
+                    break;
+                case Constantes.T_BOOL:
+                    pos = 2;
+                    break;
+                case Constantes.T_VOID:
+                    pos = 3;
+                    break;
+                case Constantes.T_ERROR:
+                    pos = 4;
+                    break;
+                default:
+                    pos = 5;
+                    break;
+            }
+            return pos;
+        }
+
+        public static string ValidarTipos(String op1, String op2, String[,] Matriz)
+        {
+            //string res = ValidarTipos(Constante.T_STR,Constante.T_NUM,MT_SUMA);
+            int fila = getPos(op1);
+            int columna = getPos(op2);
+            if (fila != 5 && columna != 5)
+            {
+                return Matriz[fila, columna];
+            }
+            else
+            {
+                return Constantes.T_ERROR;
+            }
+        }
+
     }
 }

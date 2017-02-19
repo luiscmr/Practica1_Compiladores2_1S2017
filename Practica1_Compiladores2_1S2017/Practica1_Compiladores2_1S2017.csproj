@@ -63,7 +63,11 @@
     <Compile Include="InterpreteSBS\Expresiones\Logica.cs" />
     <Compile Include="InterpreteSBS\Expresiones\Relacional.cs" />
     <Compile Include="InterpreteSBS\FabricarResultado.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\Asignacion.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\Cuerpo.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\Declaracion.cs" />
     <Compile Include="InterpreteSBS\Instrucciones\InstruccionAbstracta.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\Mostrar.cs" />
     <Compile Include="InterpreteSBS\Interprete.cs" />
     <Compile Include="InterpreteSBS\Resultado.cs" />
     <Compile Include="InterpreteSBS\Variable.cs" />

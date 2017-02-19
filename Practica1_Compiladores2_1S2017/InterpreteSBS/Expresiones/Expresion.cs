@@ -70,12 +70,19 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
                 case Constantes.LLAMADA:
                     break;
                 case Constantes.ID:
+                    String nombreVar = izq.ChildNodes[0].Token.Text;
+                    Variable var = Instrucciones.InstruccionAbstracta.obtenerVariable(ctx, nombreVar);
+                    if(var == null)
+                    {
+                        return new Resultado();
+                    }
+                    res = new Resultado(var.Valor, var.Tipo);
                     break;
                 case Constantes.TRUE:
-                    res = new Resultado(izq.ChildNodes[0].Token.Text,Constantes.TRUE);
+                    res = new Resultado(izq.ChildNodes[0].Token.Text,Constantes.T_BOOL);
                     break;
                 case Constantes.FALSE:
-                    res = new Resultado(izq.ChildNodes[0].Token.Text, Constantes.FALSE);
+                    res = new Resultado(izq.ChildNodes[0].Token.Text, Constantes.T_BOOL);
                     break;
                 default:
                     String _tipo = izq.Term.ToString();
@@ -85,7 +92,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
                         res = new Resultado(cad, Constantes.T_NUM);
                     }
                     else {
-                        res = new Resultado(cad, Constantes.T_STR);
+                        res = new Resultado(cad.Substring(1,cad.Length-2), Constantes.T_STR);
                     }
                     break;
             }

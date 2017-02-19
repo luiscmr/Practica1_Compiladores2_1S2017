@@ -12,7 +12,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
         protected ParseTreeNode instruccion;
         protected bool permiteInterrupciones;
 
-        InstruccionAbstracta(ParseTreeNode Instruccion, bool PermiteInterrupciones)
+        public InstruccionAbstracta(ParseTreeNode Instruccion, bool PermiteInterrupciones)
         {
             this.instruccion = Instruccion;
             this.permiteInterrupciones = PermiteInterrupciones;
@@ -44,8 +44,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
 
         protected bool asignacionValida(int tipoDestino, int tipoFuente)
         {
-            //Una comprobación más extensa sería bien resuelta por una 
-            //matriz de tipos, ver resolverSuma
+
             return tipoDestino == tipoFuente;
         }
 

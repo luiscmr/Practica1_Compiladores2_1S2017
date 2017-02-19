@@ -40,11 +40,13 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.txtSalida = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // bAdd
@@ -152,14 +154,6 @@
             this.panel2.Size = new System.Drawing.Size(530, 562);
             this.panel2.TabIndex = 9;
             // 
-            // panel3
-            // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Location = new System.Drawing.Point(12, 580);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1338, 149);
-            this.panel3.TabIndex = 10;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(4, 4);
@@ -168,6 +162,25 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.txtSalida);
+            this.panel3.Location = new System.Drawing.Point(12, 580);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1338, 149);
+            this.panel3.TabIndex = 10;
+            // 
+            // txtSalida
+            // 
+            this.txtSalida.Location = new System.Drawing.Point(3, 3);
+            this.txtSalida.Multiline = true;
+            this.txtSalida.Name = "txtSalida";
+            this.txtSalida.ReadOnly = true;
+            this.txtSalida.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtSalida.Size = new System.Drawing.Size(1330, 141);
+            this.txtSalida.TabIndex = 0;
             // 
             // MainWindow
             // 
@@ -190,6 +203,8 @@
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -209,5 +224,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TextBox txtSalida;
     }
 }

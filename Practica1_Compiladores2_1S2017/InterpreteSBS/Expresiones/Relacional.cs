@@ -20,7 +20,8 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
             String tipoIzq = resIzq.Tipo;
             String tipoDer = resDer.Tipo;
 
-            if (tipoIzq == Constantes.T_NUM && tipoIzq == tipoDer)
+            if ((tipoIzq != Constantes.T_STR && tipoIzq != Constantes.T_ERROR && tipoIzq != Constantes.T_VOID ) &&
+                (tipoDer != Constantes.T_STR && tipoDer != Constantes.T_ERROR && tipoDer != Constantes.T_VOID))
             {
                 return resolverNumeros(resIzq,resDer,ctx);
             }
@@ -33,8 +34,24 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
         }
 
         private Resultado resolverNumeros(Resultado resIzq, Resultado resDer, Contexto ctx) {
-            double dIzq = resIzq.Doble;
-            double dDer = resDer.Doble;
+            double dIzq, dDer;
+            if (resIzq.Tipo == Constantes.T_BOOL)
+            {
+                dIzq = Convert.ToInt32(Convert.ToBoolean(resIzq.Valor));
+            }else
+            {
+                dIzq = resIzq.Doble;
+
+            }
+
+            if(resDer.Tipo == Constantes.T_BOOL)
+            {
+                dDer = Convert.ToInt32(Convert.ToBoolean(resDer.Valor));
+            }
+            else
+            {
+                dDer = resDer.Doble;
+            }
             bool b = false;
 
             switch (operando)
