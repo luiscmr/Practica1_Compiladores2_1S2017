@@ -34,7 +34,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
                 String Ruta = "";
                 foreach(var nodo in ListaFunciones)
                 {
-                    Ruta = Interprete.Ruta + "\\AST_" + Nombre + i + ".png";
+                    Ruta = Interprete.Ruta + "AST_" + Nombre + i + ".png";
                     Gramatica.getAST(nodo, Ruta);
                     i++;
                 }

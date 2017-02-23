@@ -16,6 +16,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
         public const int GLOBAL = 0;
 
         public static String RUTA_COMPILACION = "\\";
+        public static String RUTA_IMAGENES = "\\";
 
         //Constantes para los tipos de valor
         public const String T_NUM = "Tipo Numero";

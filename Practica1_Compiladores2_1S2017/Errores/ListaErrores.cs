@@ -7,7 +7,7 @@ using Practica1_Compiladores2_1S2017.Analizador;
 
 namespace Practica1_Compiladores2_1S2017.Errores
 {
-    class ListaErrores
+    public class ListaErrores
     {
         private static ListaErrores Errores = null;
         private List<Error> listaerrores = null;

@@ -24,7 +24,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
             //construir nombre
 
             String Nombre = "";
-            Nombre = Interprete.Ruta + "\\EXP_" + Interprete.NoEXP + ".png";
+            Nombre = Interprete.Ruta + "EXP_" + Interprete.NoEXP + ".png";
             Gramatica.getEXP(instruccion.ChildNodes[0], Nombre);
             Interprete.NoEXP++;
             return FabricarResultado.creaOk();

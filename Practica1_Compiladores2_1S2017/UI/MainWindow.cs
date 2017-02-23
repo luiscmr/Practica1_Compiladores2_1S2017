@@ -180,6 +180,7 @@ namespace Practica1_Compiladores2_1S2017.UI
                     interprete.Analizar();
                     interprete.Ejecutar();
                     txtSalida.Text = Interprete.Salida;
+                    loadImages();
                 }
                 
             }
@@ -191,6 +192,16 @@ namespace Practica1_Compiladores2_1S2017.UI
             r.Show(this);
         }
 
+        private void loadImages()
+        {
+            imageList1 = new ImageList();
+            foreach(string file in Directory.GetFiles(Interprete.Ruta, "*.png", SearchOption.AllDirectories))
+            {
+                Image image = new Bitmap(file);
+                imageList1.Images.Add(image);
+                imageList1.Images[imageList1.Images.Count - 1].Tag = file;
+            }
+        }
 
 
         //---------- Guardar Archivo Como -----------//

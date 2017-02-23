@@ -28,7 +28,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
         private ParseTreeNode Principal = null;
         private ParseTreeNode Arbol = null;
         private static Double incerteza = 0.5;
-        private static String ruta = "";
+        private static String ruta = "\\";
         public static String archivo = "";
         public static int NoEXP
         {
@@ -41,7 +41,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
                 noexp = value;
             }
         }
-
+        public static ListaErrores Errores;
         public static String Salida
         {
             get
@@ -60,6 +60,9 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
         }
 
         public void Analizar() {
+
+            ListaErrores.resetInstance();
+            
             Gramatica gramatica = new Gramatica();
             LanguageData lenguaje = new LanguageData(gramatica);
             Parser parser = new Parser(lenguaje);
@@ -104,11 +107,10 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
             global = new Contexto();
             Salida = "";
             NoEXP = 0;
-            Ruta = "";
+            Ruta = "\\";
             Incerteza = 0.5;
             variables = new List<ParseTreeNode>();
             metodos = new Dictionary<string, List<ParseTreeNode>>();
-            ListaErrores.resetInstance();
         }
 
         public static Contexto getContextoGlobal() { return Interprete.global; }
@@ -151,7 +153,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
                                         String _ruta = nodo_encabezado.ChildNodes[0].Token.Text;
                                         if (Directory.Exists(_ruta))
                                         {
-                                            Interprete.Ruta = _ruta;
+                                            Interprete.Ruta = _ruta + "\\";
                                         }
                                         break;
                                     case Constantes.INCLUYE:
@@ -208,7 +210,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
                                             _ruta = _ruta.Substring(1, _ruta.Length - 2);
                                             if (Directory.Exists(_ruta)==true)
                                             {
-                                                Interprete.Ruta = _ruta;
+                                                Interprete.Ruta = _ruta + "\\";
                                             }
                                             break;
                                         case Constantes.INCLUYE:
