@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using Irony.Parsing;
 using Practica1_Compiladores2_1S2017.Analizador;
 using Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones;
+using Practica1_Compiladores2_1S2017.Errores;
 
 namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
 {
     class Asignacion : InstruccionAbstracta
     {
+        private object izq;
+
         public Asignacion(ParseTreeNode Instruccion, bool PermiteInterrupciones) : base(Instruccion, PermiteInterrupciones)
         {
         }
@@ -28,6 +31,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
             String tipo = res.Tipo;
             if(tipo == Constantes.T_ERROR)
             {
+                ListaErrores.getInstance().setErrorSemantico(instruccion.Token.Location.Line, instruccion.Token.Location.Line, "No se puedo resolver la expresion", Interprete.archivo);
                 return FabricarResultado.creaFail();
                 //error en la expresion
             }
@@ -37,6 +41,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
             String valor = null;
             if (casteo == Constantes.T_ERROR)
             {
+                ListaErrores.getInstance().setErrorSemantico(instruccion.Token.Location.Line, instruccion.Token.Location.Line, "No se puede asignar ese tipo de dato", Interprete.archivo);
                 //no se puede asignar ese tipo
             }
             else
@@ -66,6 +71,8 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
                                 tmp = res.Valor;
                                 break;
                             default:
+
+                                ListaErrores.getInstance().setErrorSemantico(instruccion.Token.Location.Line, instruccion.Token.Location.Line, "error de casteo", Interprete.archivo);
                                 //error por si llegara a pasar aunque no lo creo
                                 break;
                         }
@@ -77,6 +84,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
                                 tmp = res.Valor;
                                 break;
                             default:
+                                ListaErrores.getInstance().setErrorSemantico(instruccion.Token.Location.Line, instruccion.Token.Location.Line, "error de casteo", Interprete.archivo);
                                 //error por si llegara a pasar aunque no lo creo
                                 break;
                         }
@@ -86,6 +94,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
             }
             destino.Valor = valor;
 
+            ctx.ActualizarValor(nombreVar, destino);
             return FabricarResultado.creaOk();
         }
     }

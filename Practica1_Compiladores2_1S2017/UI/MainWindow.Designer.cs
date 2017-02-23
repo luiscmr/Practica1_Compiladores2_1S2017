@@ -118,6 +118,7 @@
             this.bReport.Size = new System.Drawing.Size(55, 55);
             this.bReport.TabIndex = 6;
             this.bReport.UseVisualStyleBackColor = true;
+            this.bReport.Click += new System.EventHandler(this.bReport_Click);
             // 
             // bAlbum
             // 

@@ -33,6 +33,16 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
             return variables.TryGetValue(nombre, out tmp);
         }
 
+        public void eliminarVariable(String nombre)
+        {
+            variables.Remove(nombre);
+        }
+
+        public void ActualizarValor(String nombre, Variable var)
+        {
+            variables[nombre] = var;
+        }
+
         public void setVariable(Variable var) { this.variables.Add(var.Nombre, var); }
 
         public void reporte() {

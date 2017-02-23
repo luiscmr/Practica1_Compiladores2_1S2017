@@ -11,7 +11,20 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
     {
         private String valor;
         private ParseTreeNode raiz;
-        
+        private String archivo;
+
+        public string Archivo
+        {
+            get
+            {
+                return archivo;
+            }
+            set
+            {
+                archivo = value;
+            }
+        }
+
         public string Valor
         {
             get
@@ -38,8 +51,9 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS
             }
         }
 
-        public Encabezado( String Valor) {
+        public Encabezado( String Valor, String archivo) {
             this.Valor = Valor;
+            this.archivo = archivo;
             this.Raiz = null;
         }
 

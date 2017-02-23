@@ -15,6 +15,8 @@ namespace Practica1_Compiladores2_1S2017.Analizador
         public const String ERR_GENERAL = "General";
         public const int GLOBAL = 0;
 
+        public static String RUTA_COMPILACION = "\\";
+
         //Constantes para los tipos de valor
         public const String T_NUM = "Tipo Numero";
         public const String T_STR = "Tipo Cadena";
@@ -73,7 +75,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
         public const String LISTA_PARAMETRO = "Parametros";
         public const String LISTA_ID = "Identificadores";
         public const String LISTA_VAL = "Valores";
-        public const String DEFECTO = "Valores";
+        public const String DEFECTO = "Defecto";
         public const String ID = "Identificador";
         public const String PRIMITIVO = "Primitivo";
 

@@ -22,8 +22,8 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             //Expresion regular para ids con terminacion .sbs, cadena y numero
             RegexBasedTerminal idsbs = new RegexBasedTerminal("[a-zA-Z]([a-zA-Z0-9])*.sbs");
             IdentifierTerminal id = new IdentifierTerminal("identificador");
-            StringLiteral cadena = new StringLiteral("cadena", "\"", StringOptions.AllowsLineBreak);
-            NumberLiteral numero = new NumberLiteral("numero");
+            StringLiteral cadena = new StringLiteral(Constantes.T_STR, "\"", StringOptions.AllowsLineBreak);
+            NumberLiteral numero = new NumberLiteral(Constantes.T_NUM);
             //Expresion regular para comentarios
             CommentTerminal comentarioBloque = new CommentTerminal("comentarioBloque", "#*", "*#");
             CommentTerminal comentarioLinea = new CommentTerminal("comentarioLinea", "#", "\n");
@@ -32,19 +32,19 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             base.NonGrammarTerminals.Add(comentarioLinea);
 
 
-            KeyTerm t_number = ToTerm("Number",Constantes.T_NUM),
+            KeyTerm t_number = ToTerm("Number", Constantes.T_NUM),
                     t_str = ToTerm("String", Constantes.T_STR),
                     t_bool = ToTerm("Bool", Constantes.T_BOOL),
                     t_void = ToTerm("Void", Constantes.T_VOID),
                     define = ToTerm("Define"),
                     incluye = ToTerm("Incluye"),
                     principal = ToTerm("Principal"),
-                    mas = ToTerm("+",Constantes.OP_SUM),
-                    menos = ToTerm("-",Constantes.OP_RES),
-                    por = ToTerm("*",Constantes.OP_MUL),
-                    div = ToTerm("/",Constantes.OP_DIV),
-                    mod = ToTerm("%",Constantes.OP_MOD),
-                    pot = ToTerm("^",Constantes.OP_POT),
+                    mas = ToTerm("+", Constantes.OP_SUM),
+                    menos = ToTerm("-", Constantes.OP_RES),
+                    por = ToTerm("*", Constantes.OP_MUL),
+                    div = ToTerm("/", Constantes.OP_DIV),
+                    mod = ToTerm("%", Constantes.OP_MOD),
+                    pot = ToTerm("^", Constantes.OP_POT),
                     igual = ToTerm("==", Constantes.OP_IGUAL),
                     diferente = ToTerm("!=", Constantes.OP_DIF),
                     menor = ToTerm("<", Constantes.OP_MENOR),
@@ -64,15 +64,21 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                     continuar = ToTerm("Continuar"),
                     retorno = ToTerm("Retorno"),
                     para = ToTerm("Para"),
-                    incremento = ToTerm("++",Constantes.INCREMENTO),
-                    decremento = ToTerm("--",Constantes.DECREMENTO),
+                    incremento = ToTerm("++", Constantes.INCREMENTO),
+                    decremento = ToTerm("--", Constantes.DECREMENTO),
                     hasta = ToTerm("Hasta"),
-                    v_true = ToTerm("true",Constantes.TRUE),
-                    v_false = ToTerm("false",Constantes.FALSE),
+                    v_true = ToTerm("True", Constantes.TRUE),
+                    v_false = ToTerm("False", Constantes.FALSE),
                     si = ToTerm("Si"),
                     sino = ToTerm("Sino"),
                     selecciona = ToTerm("Selecciona"),
-                    defecto = ToTerm("Defecto")
+                    defecto = ToTerm("Defecto"),
+                    pyc = ToTerm(";"),
+                    dp = ToTerm(":"),
+                    parA = ToTerm("("),
+                    parC = ToTerm(")"),
+                    llaveA = ToTerm("{"),
+                    llaveC = ToTerm("}")
                     ;
 
             #endregion
@@ -223,7 +229,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
 
             L_PARAM.Rule = MakeStarRule(L_PARAM, ToTerm(","), L_PARAM_2);
 
-            L_PARAM_2.Rule = TIPO_VARIABLE + EXP;
+            L_PARAM_2.Rule = TIPO_VARIABLE + id;
 
 
 
@@ -242,7 +248,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
 
             CUERPO_FUNC.Rule = MakeStarRule(CUERPO_FUNC, INSTRUCCION);
 
-            CUERPO_FUNC_CONT.Rule = MakeStarRule(CUERPO_FUNC_CONT,INSTRUCCION_CONT);
+            CUERPO_FUNC_CONT.Rule = MakeStarRule(CUERPO_FUNC_CONT, INSTRUCCION_CONT);
 
             CUERPO_FUNC_DET.Rule = MakeStarRule(CUERPO_FUNC_DET, INSTRUCCION_DET);
 
@@ -255,7 +261,7 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                                | CONTINUAR
                                ;
             INSTRUCCION.Rule =
-                                 LLAMADA + ";"
+                                 LLAMADA + pyc
                                | DIBUJAR_AST
                                | DIBUJAR_EXP
                                | MOSTRAR
@@ -270,84 +276,82 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                                ;
 
             #region Llamada
-            
-            LLAMADA.Rule = id + "(" + VALORES_LLAMADA_T + ")";
+
+            LLAMADA.Rule = id + parA + VALORES_LLAMADA_T + parC;
             VALORES_LLAMADA_T.Rule = VALORES_LLAMADA | Empty;
             VALORES_LLAMADA.Rule = MakeStarRule(VALORES_LLAMADA, ToTerm(","), EXP);
-            LLAMADA.ErrorRule = SyntaxError + ";";
 
             #endregion
 
             #region Dibujar AST
-            DIBUJAR_AST.Rule = fun_dibujar_ast + "(" + id + ")" + ";";
+            DIBUJAR_AST.Rule = fun_dibujar_ast + parA + id + parC + pyc;
             #endregion
 
             #region Dibujar EXP
-            DIBUJAR_EXP.Rule = fun_dibujar_exp + "(" + EXP + ")" + ";";
+            DIBUJAR_EXP.Rule = fun_dibujar_exp + parA + EXP + parC + pyc;
             #endregion
 
             #region Mostrar
-            MOSTRAR.Rule = fun_mostrar + "(" + cadena + PARAM_MOSTRAR + ")" + ";";
+            MOSTRAR.Rule = fun_mostrar + parA + cadena + PARAM_MOSTRAR + parC + pyc;
 
             PARAM_MOSTRAR.Rule = "," + VALORES_LLAMADA
                                 | Empty
                                 ;
-
             #endregion
 
             #region Detener
-            DETENER.Rule = detener + ";";
+            DETENER.Rule = detener + pyc;
             #endregion
 
             #region Continuar
-            CONTINUAR.Rule = continuar + ";";
+            CONTINUAR.Rule = continuar + pyc;
             #endregion
 
             #region Retorno
-            RETORNO.Rule = retorno + EXP_RETORNO + ";";
+            RETORNO.Rule = retorno + EXP_RETORNO + pyc;
             EXP_RETORNO.Rule = EXP | Empty;
             #endregion
 
             #region Mientras
-            MIENTRAS.Rule = mientras + "(" + EXP + ")" + "{" + CUERPO_FUNC_CONT + "}";
+            MIENTRAS.Rule = mientras + parA + EXP + parC + llaveA + CUERPO_FUNC_CONT + llaveC;
             #endregion
 
             #region Para
-            PARA.Rule = para + "(" + t_number + id + "=" + EXP + ";" + EXP + ";" + OP + ")" + "{" + CUERPO_FUNC_CONT + "}";
+            PARA.Rule = para + parA + t_number + id + "=" + EXP + ";" + EXP + ";" + OP + parC + llaveA + CUERPO_FUNC_CONT + llaveC;
             OP.Rule = INCREMENTO | DECREMENTO;
             INCREMENTO.Rule = incremento;
             DECREMENTO.Rule = decremento;
             #endregion
 
             #region Hasta
-            HASTA.Rule = hasta + "(" + EXP + ")" + "{" + CUERPO_FUNC_CONT + "}";
+            HASTA.Rule = hasta + parA + EXP + parC + llaveA + CUERPO_FUNC_CONT + llaveC;
             #endregion
 
             #region Si
             SI_SINO.Rule = SI + SINO;
-            SI.Rule = si + "(" + EXP + ")" + "{" + CUERPO_FUNC_CONT + "}";
-            SINO.Rule = Empty | sino + "{" + CUERPO_FUNC_CONT + "}" ;
+            SI.Rule = si + parA + EXP + parC + llaveA + CUERPO_FUNC_CONT + llaveC;
+            SINO.Rule = Empty | sino + llaveA + CUERPO_FUNC_CONT + llaveC;
             #endregion
 
             #region Seleccion
-            SELECCIONA.Rule = selecciona + "(" + EXP + ")"  + CUERPO_SELECCIONA ;
+            SELECCIONA.Rule = selecciona + parA + EXP + parC + CUERPO_SELECCIONA;
             CUERPO_SELECCIONA.Rule = VALOR_ANIDADO + DEFECTO;
             VALOR_ANIDADO.Rule = MakePlusRule(VALOR_ANIDADO, VALOR_N);
-            VALOR_N.Rule = TIPO_VALOR + ":" + "{" + CUERPO_FUNC_DET + "}";
-            TIPO_VALOR.Rule = numero | cadena ;
-            DEFECTO.Rule = defecto + ":" + "{" + CUERPO_FUNC_DET + "}";
-
+            VALOR_N.Rule = TIPO_VALOR + dp + llaveA + CUERPO_FUNC_DET + llaveC;
+            TIPO_VALOR.Rule = numero | cadena;
+            DEFECTO.Rule = defecto + dp + llaveA + CUERPO_FUNC_DET + llaveC
+                            | Empty;
             #endregion
 
             #region Asignacion
-            ASIGNACION.Rule = id + "=" + EXP + ";";
+            ASIGNACION.Rule = id + "=" + EXP + pyc;
             #endregion
 
             #endregion
 
             #region Declaracion
 
-            DECLARACION.Rule = TIPO_VARIABLE + L_ID + ASIG_VARIABLE + ";";
+            DECLARACION.Rule = TIPO_VARIABLE + L_ID + ASIG_VARIABLE + pyc;
 
             TIPO_VARIABLE.Rule = NUMBER | STRING | BOOLEAN;
 
@@ -356,13 +360,12 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             BOOLEAN.Rule = t_bool;
             VOID.Rule = t_void;
 
-            L_ID.Rule = MakePlusRule(L_ID,ToTerm(","),id);
+            L_ID.Rule = MakePlusRule(L_ID, ToTerm(","), id);
 
             ASIG_VARIABLE.Rule = "=" + EXP
-                |Empty
+                | Empty
                 ;
 
-            DECLARACION.ErrorRule = SyntaxError + ";";
 
             #endregion
 
@@ -395,10 +398,9 @@ namespace Practica1_Compiladores2_1S2017.Analizador
                         | ARIT + pot + ARIT
                         | menos + ARIT
                         | VAL
-                        | "(" + EXP + ")"
                         ;
 
-            VAL.Rule = PRIMITIVO |  ID | LLAMADA;
+            VAL.Rule = PRIMITIVO | parA + LOG + parC | ID | LLAMADA;
             ID.Rule = id;
             PRIMITIVO.Rule = numero | cadena | TRUE | FALSE;
             TRUE.Rule = v_true;
@@ -410,24 +412,39 @@ namespace Practica1_Compiladores2_1S2017.Analizador
 
             this.Root = START;
 
-            LISTA_HEADER.ErrorRule = SyntaxError + Eos;
-            
+            #region Recuperacion de Errores
+
+            MOSTRAR.ErrorRule = SyntaxError + pyc;
+            VALOR_N.ErrorRule = SyntaxError + llaveC;
+            INSTRUCCION.ErrorRule = SyntaxError + pyc | SyntaxError + llaveC | SyntaxError + parC;
+            /*
+            DEFINE_INCERTEZA.ErrorRule = SyntaxError + Eof;
+            DEFINE_RUTA.ErrorRule = SyntaxError + Eof;
+            INCLUYE.ErrorRule = SyntaxError + Eof;
+            MOSTRAR.ErrorRule = SyntaxError + ";";
+            BODY.ErrorRule = SyntaxError + ";" | SyntaxError + "}" | SyntaxError + ")";
+            */
+            #endregion
+
+
             RegisterOperators(100, Associativity.Right, pot);
             RegisterOperators(95, Associativity.Left, por, div, mod);
             RegisterOperators(90, Associativity.Left, mas, menos);
-            RegisterOperators(85,  igual, diferente, menor, mayor, menor_igual, mayor_igual,comparacion);
+            RegisterOperators(85, igual, diferente, menor, mayor, menor_igual, mayor_igual, comparacion);
             RegisterOperators(80, not);
             RegisterOperators(75, and);
             RegisterOperators(70, xor);
             RegisterOperators(65, or);
 
+            RegisterBracePair("{", "}");
+            RegisterBracePair("(", ")");
 
             MarkPunctuation("{", "}", "(", ")", ";", "," , "Mostrar","Define","Incluye","Principal","=","Retorno", "Si",
                 "Sino","Selecciona","Defecto",":","Para","Mientras","Hasta","Number", "Void", "String","Bool","Detener"
-                ,"Continuar","Retorno","++","--");
+                ,"Continuar","Retorno","++","--","DibujarEXP","DibujarAST");
             MarkTransient(LISTA_HEADER,ELEMENTO_BODY,TIPO_VARIABLE, TIPO_FUNCION, ASIG_VARIABLE,L_PARAM,PARAM_MOSTRAR
                 ,INSTRUCCION,INSTRUCCION_DET, INSTRUCCION_CONT,TIPO_VALOR,EXP_RETORNO,OP,VALORES_LLAMADA_T);
-            AddToNoReportGroup(Eos);
+            //AddToNoReportGroup(Eos);
 
 
         }
@@ -439,6 +456,23 @@ namespace Practica1_Compiladores2_1S2017.Analizador
             WINGRAPHVIZLib.BinaryImage img = dot.ToJPEG(grafoDOT);
             img.Save("ast.jpeg");
         }
-        
+
+
+        public static void getEXP(ParseTreeNode raiz, String Nombre)
+        {
+            String grafoDOT = Graficar.arbolDOT.getDOT(raiz);
+            WINGRAPHVIZLib.DOT dot = new WINGRAPHVIZLib.DOT();
+            WINGRAPHVIZLib.BinaryImage img = dot.ToJPEG(grafoDOT);
+            img.Save(Nombre);
+        }
+
+        public static void getAST(ParseTreeNode raiz, String Nombre)
+        {
+            String grafoDOT = Graficar.arbolDOT.getDOT2(raiz);
+            WINGRAPHVIZLib.DOT dot = new WINGRAPHVIZLib.DOT();
+            WINGRAPHVIZLib.BinaryImage img = dot.ToJPEG(grafoDOT);
+            img.Save(Nombre);
+        }
+
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Irony.Parsing;
 using Practica1_Compiladores2_1S2017.Analizador;
+using Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones;
 
 namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
 {
@@ -68,6 +69,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
                     res = new Expresion(izq.ChildNodes[0]).resolver(ctx);
                     break;
                 case Constantes.LLAMADA:
+                    res = new Llamada(izq).ejecutar(ctx, 1);
                     break;
                 case Constantes.ID:
                     String nombreVar = izq.ChildNodes[0].Token.Text;
@@ -87,7 +89,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
                 default:
                     String _tipo = izq.Term.ToString();
                     String cad = izq.Token.Text;
-                    if (_tipo.CompareTo("numero") == 0)
+                    if (_tipo.CompareTo(Constantes.T_NUM) == 0)
                     {
                         res = new Resultado(cad, Constantes.T_NUM);
                     }

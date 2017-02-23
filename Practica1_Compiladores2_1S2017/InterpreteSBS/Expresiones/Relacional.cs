@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Irony.Parsing;
 using Practica1_Compiladores2_1S2017.Analizador;
+using Practica1_Compiladores2_1S2017.Errores;
 
 namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
 {
@@ -29,7 +30,8 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
             {
                 return resolverCadenas(resIzq, resDer, ctx);
             }
-            
+
+            ListaErrores.getInstance().setErrorSemantico(izq.Token.Location.Line, izq.Token.Location.Line, "Ambas tienen que ser numeros o cadenas", Interprete.archivo);
             return new Resultado();
         }
 
@@ -78,6 +80,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
                     b = Math.Abs(dIzq - dDer)<=Interprete.Incerteza;
                     break;
                 default:
+                    ListaErrores.getInstance().setErrorSemantico(izq.Token.Location.Line, izq.Token.Location.Line, "opearacion fuera de rango", Interprete.archivo);
                     break;
             }
 
@@ -114,7 +117,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
                     b = String.Compare(v1,v2,true) == 0;
                     break;
                 default:
-                    Console.WriteLine("Operando Invalido");
+                    ListaErrores.getInstance().setErrorSemantico(izq.Token.Location.Line, izq.Token.Location.Line, "opreardor invalido", Interprete.archivo);
                     break;
             }
 

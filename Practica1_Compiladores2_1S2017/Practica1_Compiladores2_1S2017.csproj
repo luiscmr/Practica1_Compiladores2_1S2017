@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="Analizador\Constantes.cs" />
     <Compile Include="Analizador\Gramatica.cs" />
+    <Compile Include="Errores\Error.cs" />
+    <Compile Include="Errores\ListaErrores.cs" />
     <Compile Include="InterpreteSBS\Expresiones\Aritmetica.cs" />
     <Compile Include="InterpreteSBS\Expresiones\ExpresioAbstracta.cs" />
     <Compile Include="Graficar\arbolDOT.cs" />
@@ -66,8 +68,17 @@
     <Compile Include="InterpreteSBS\Instrucciones\Asignacion.cs" />
     <Compile Include="InterpreteSBS\Instrucciones\Cuerpo.cs" />
     <Compile Include="InterpreteSBS\Instrucciones\Declaracion.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\GraficarAST.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\GraficarEXP.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\Hasta.cs" />
     <Compile Include="InterpreteSBS\Instrucciones\InstruccionAbstracta.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\Llamada.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\Mientras.cs" />
     <Compile Include="InterpreteSBS\Instrucciones\Mostrar.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\Para.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\Retorno.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\Selecciona.cs" />
+    <Compile Include="InterpreteSBS\Instrucciones\Si.cs" />
     <Compile Include="InterpreteSBS\Interprete.cs" />
     <Compile Include="InterpreteSBS\Resultado.cs" />
     <Compile Include="InterpreteSBS\Variable.cs" />
@@ -78,6 +89,12 @@
     </Compile>
     <Compile Include="UI\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ReporteErrores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ReporteErrores.Designer.cs">
+      <DependentUpon>ReporteErrores.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -91,6 +108,10 @@
     <EmbeddedResource Include="UI\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ReporteErrores.resx">
+      <DependentUpon>ReporteErrores.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\DataSources\Practica1_Compiladores2_1S2017.Errores.Error.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

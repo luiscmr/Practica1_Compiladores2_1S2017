@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Irony.Parsing;
 using Practica1_Compiladores2_1S2017.Analizador;
+using Practica1_Compiladores2_1S2017.Errores;
 
 namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
 {
@@ -33,10 +34,11 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
             Resultado resDer = new Expresion(der).resolver(ctx);
             String tipoIzq = resIzq.Tipo;
             String tipoDer = resDer.Tipo;
-
-            if(tipoIzq == Constantes.T_BOOL && tipoIzq == tipoDer)
+            int comparacion1 = tipoIzq.CompareTo(Constantes.T_BOOL);
+            int comparacion2 = tipoIzq.CompareTo(tipoDer);
+            if (comparacion1 != comparacion2)
             {
-                Console.WriteLine("Error los dos deben ser booleanos");
+                ListaErrores.getInstance().setErrorSemantico(izq.Token.Location.Line, izq.Token.Location.Line, "Deben ser booleanos las dos expresiones", Interprete.archivo);
                 return new Resultado();
             }
 
@@ -54,7 +56,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
                     bIzq = bIzq ^ bDer;
                     break;
                 default:
-                    Console.WriteLine("Error");
+                    ListaErrores.getInstance().setErrorSemantico(izq.Token.Location.Line, izq.Token.Location.Line, "Expresion fuera de rango", Interprete.archivo);
                     break;
             }
             return FabricarResultado.creaBooleano(bIzq);
@@ -65,9 +67,11 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
             Resultado resIzq = new Expresion(izq).resolver(ctx);
             if(resIzq.Tipo != Constantes.T_BOOL)
             {
+
+                ListaErrores.getInstance().setErrorSemantico(izq.Token.Location.Line, izq.Token.Location.Line, "No coinciden los tipos", Interprete.archivo);
                 return new Resultado();
             }
-            if (operando == Constantes.OP_RES)
+            if (operando == "!")
             {
                 return resolverNot(resIzq);
             }

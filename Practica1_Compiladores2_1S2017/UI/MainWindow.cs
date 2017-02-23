@@ -104,30 +104,35 @@ namespace Practica1_Compiladores2_1S2017.UI
         //---------- Guardar Archivo ------------//
 
         public void SaveFile() {
-            SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.Filter = "SBScript Files | *.sbs";
-            saveFile.Title = "Guardar Archivo";
-
-            String title = tabControl.SelectedTab.Text;
-            string search = "Pestaña";
-            StringComparison comp = StringComparison.InvariantCultureIgnoreCase;
-            if (title.StartsWith(search, comp) == true)
+            if (tabControl.TabCount > 0)
             {
-                if(saveFile.ShowDialog() == DialogResult.OK)
+
+                SaveFileDialog saveFile = new SaveFileDialog();
+                saveFile.Filter = "SBScript Files | *.sbs";
+                saveFile.Title = "Guardar Archivo";
+
+                String title = tabControl.SelectedTab.Text;
+                string search = "Pestaña";
+                StringComparison comp = StringComparison.InvariantCultureIgnoreCase;
+                if (title.StartsWith(search, comp) == true)
                 {
-                    title = saveFile.FileName;
+                    if (saveFile.ShowDialog() == DialogResult.OK)
+                    {
+                        title = saveFile.FileName;
+                    }
                 }
+
+                String text = "";
+
+                if (tabControl.SelectedTab.Controls.ContainsKey("texto"))
+                {
+                    text = tabControl.SelectedTab.Controls["texto"].Text;
+                }
+
+                File.WriteAllText(title, text);
+
+                tabControl.SelectedTab.Text = title;
             }
-
-            String text = "";
-
-            if (tabControl.SelectedTab.Controls.ContainsKey("texto")) {
-                text = tabControl.SelectedTab.Controls["texto"].Text;
-            }
-
-            File.WriteAllText(title, text);
-
-            tabControl.SelectedTab.Text = title;
             
         }
 
@@ -162,25 +167,28 @@ namespace Practica1_Compiladores2_1S2017.UI
         private void bExec_Click(object sender, EventArgs e)
         {
             if (tabControl.TabCount != 0) {
+                String ruta = tabControl.SelectedTab.Text;
                 String texto = tabControl.SelectedTab.Controls["texto"].Text;
-                Interprete interprete = new Interprete(texto);
-                interprete.Analizar();
-                interprete.Ejecutar();
-                txtSalida.Text = Interprete.Salida;
-                /*
-            pictureBox1.Image = Gramatica.getImage(raiz);
-
-            foreach (var hijo in raiz.ChildNodes)
-            {
-                switch (hijo.ToString())
+                String busqueda = "Pestaña";
+                StringComparison comparasion = StringComparison.InvariantCultureIgnoreCase;
+                if(!ruta.StartsWith(busqueda,comparasion))
                 {
-                    case "Define incerteza":
-                        MessageBox.Show("La incerteza es de: " + hijo.ChildNodes[0].FindTokenAndGetText());
-                        break;
+                    String path = Path.GetDirectoryName(ruta);
+                    String archivo = Path.GetFileName(ruta);
+                    Constantes.RUTA_COMPILACION = path + "\\";
+                    Interprete interprete = new Interprete(texto,archivo);
+                    interprete.Analizar();
+                    interprete.Ejecutar();
+                    txtSalida.Text = Interprete.Salida;
                 }
+                
             }
-            */
-            }
+        }
+
+        private void bReport_Click(object sender, EventArgs e)
+        {
+            ReporteErrores r = new ReporteErrores();
+            r.Show(this);
         }
 
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Irony.Parsing;
 using Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones;
 using Practica1_Compiladores2_1S2017.Analizador;
+using Practica1_Compiladores2_1S2017.Errores;
 
 namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
 {
@@ -26,9 +27,12 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
                 if (tipo == Constantes.T_ERROR)
                 {
 
-                }else if (casteo == Constantes.T_ERROR)
+                    ListaErrores.getInstance().setErrorSemantico(instruccion.Token.Location.Line, instruccion.Token.Location.Line, "error de tipo", Interprete.archivo);
+                }
+                else if (casteo == Constantes.T_ERROR)
                 {
 
+                    ListaErrores.getInstance().setErrorSemantico(instruccion.Token.Location.Line, instruccion.Token.Location.Line, "error de casteo", Interprete.archivo);
                 }
                 else
                 {
@@ -57,7 +61,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
                                     tmp = res.Valor;
                                     break;
                                 default:
-                                    //error por si llegara a pasar aunque no lo creo
+                                    ListaErrores.getInstance().setErrorSemantico(instruccion.Token.Location.Line, instruccion.Token.Location.Line, "Error de casteo", Interprete.archivo);
                                     break;
                             }
                             break;
@@ -68,7 +72,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
                                     tmp = res.Valor;
                                     break;
                                 default:
-                                    //error por si llegara a pasar aunque no lo creo
+                                    ListaErrores.getInstance().setErrorSemantico(instruccion.Token.Location.Line, instruccion.Token.Location.Line, "error de casteo", Interprete.archivo);
                                     break;
                             }
                             break;

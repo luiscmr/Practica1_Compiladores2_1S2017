@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Irony.Parsing;
 using Practica1_Compiladores2_1S2017.Analizador;
+using Practica1_Compiladores2_1S2017.Errores;
 
 namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
 {
@@ -23,7 +24,6 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
             if (der == null) {
                 return resolverUnaria(ctx);
             }
-
             return resolverBinaria(ctx);
         }
 
@@ -31,6 +31,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
             Resultado resIzq = new Expresion(izq).resolver(ctx);
             if(resIzq.Tipo != Constantes.T_NUM)
             {
+                ListaErrores.getInstance().setErrorSemantico(izq.Token.Location.Line, izq.Token.Location.Line, "No coinciden los tipos", Interprete.archivo);
                 return new Resultado();
             }
             if(operando == Constantes.OP_RES)
@@ -51,11 +52,13 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
             Resultado resIzq = new Expresion(izq).resolver(ctx);
             if (resIzq.esError())
             {
+                ListaErrores.getInstance().setErrorSemantico(izq.Token.Location.Line, izq.Token.Location.Line, "No se puedo resolver la expresion", Interprete.archivo);
                 return new Resultado();
             }
             Resultado resDer = new Expresion(der).resolver(ctx);
             if (resDer.esError())
             {
+                ListaErrores.getInstance().setErrorSemantico(izq.Token.Location.Line, izq.Token.Location.Line, "No se puedo resolver la expresion", Interprete.archivo);
                 return new Resultado();
             }
             if (operando == "+")
@@ -154,7 +157,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
                 case "/":
                     if(dDer == 0)
                     {
-                        Console.WriteLine("No se Puede dividir entre 0");
+                        ListaErrores.getInstance().setErrorSemantico(der.Token.Location.Line, der.Token.Location.Line, "No se puede dividir entre 0", Interprete.archivo);
                         return new Resultado();
                     }
                     if (Constantes.ValidarTipos(resIzq.Tipo, resDer.Tipo, Constantes.MT_DIVISION) == Constantes.T_NUM)
@@ -165,7 +168,7 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Expresiones
                 case "%":
                     if (dDer == 0)
                     {
-                        Console.WriteLine("No se Puede dividir entre 0");
+                        ListaErrores.getInstance().setErrorSemantico(der.Token.Location.Line, der.Token.Location.Line, "No se puede dividir entre 0", Interprete.archivo);
                         return new Resultado();
                     }
 

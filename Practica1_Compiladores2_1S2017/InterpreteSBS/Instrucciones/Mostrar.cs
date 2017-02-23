@@ -17,44 +17,39 @@ namespace Practica1_Compiladores2_1S2017.InterpreteSBS.Instrucciones
         override
         public Resultado ejecutar(Contexto ctx, int nivel)
         {
-            string cad = instruccion.ChildNodes[0].Token.Text;
-            string Cadena = cad.Substring(1, cad.Length - 2);
+            if(instruccion.ChildNodes.Count>0){ 
+                string cad = instruccion.ChildNodes[0].Token.Text;
+                //            string Cadena = cad.Substring(1, cad.Length - 2);
 
-            string[] param = Regex.Split(Cadena, @"\{\d+\}");
-            int tamParamCad = param.Length - 1;
-            int tamParam = instruccion.ChildNodes[1].ChildNodes.Count;
-            String result = "";
-
-            if (tamParam >= 1)
-            {
-                if(tamParam == tamParamCad)
+                if (instruccion.ChildNodes.Count == 1)
                 {
-                    for (int i = 0; i <= tamParam; i++)
+                    Interprete.ConcatenarSalida(cad);
+                    Interprete.ConcatenarSalida("\r\n");
+                    return FabricarResultado.creaOk();
+                }
+                ParseTreeNode Param = instruccion.ChildNodes[1];
+
+                List<String> valores = new List<String>();
+
+                foreach (var parametro in Param.ChildNodes)
+                {
+                    Resultado res = new Expresion(parametro.ChildNodes[0]).resolver(ctx);
+                    String tempval = "";
+                    if (res.Tipo == Constantes.T_ERROR)
                     {
-                        result += param[i];
-                        if (i < tamParamCad)
-                        {
-                            Resultado res = new Expresion(instruccion.ChildNodes[1].ChildNodes[i].ChildNodes[0]).resolver(ctx);
-                            if (res.Tipo == Constantes.T_ERROR)
-                            {
-                                //error
-                                continue;
-                            }
-                            result += res.Valor;
-                        }
+
                     }
-                    Interprete.ConcatenarSalida(result);
+                    tempval = res.Valor;
+                    valores.Add(tempval);
                 }
-                else
-                {
-                    //error no vinieron la misma cantidad de parametros
-                }
+
+                String[] parametrosMostrar = valores.ToArray();
+
+                String resultado = String.Format(cad, parametrosMostrar);
+
+                Interprete.ConcatenarSalida(resultado);
+                Interprete.ConcatenarSalida("\r\n");
             }
-            else
-            {
-                Interprete.ConcatenarSalida(Cadena);
-            }
-            Interprete.ConcatenarSalida("\r\n");
             return FabricarResultado.creaOk();
         }
     }
